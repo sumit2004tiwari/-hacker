@@ -1,12 +1,119 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
-    <exclude-output />
-    <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
-    </content>
-    <orderEntry type="inheritedJdk" />
-    <orderEntry type="sourceFolder" forTests="false" />
-  </component>
-</module>
+package sumitnewproject.java;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+
+ public class MyMain extends Application{
+
+    public static void main(String[] args){
+      launch(args);
+    }
+
+    @Override
+    public void init() throws Exception {
+        System.out.println("init");
+        super.init();
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        System.out.println("start");
+        FXMLLoader loader = new
+                FXMLLoader(getClass().getResource("app_layout.fxml"));
+        VBox rootNode = loader.load();
+
+        MenuBar menuBar = createmenu();
+        rootNode.getChildren().add(0,menuBar);
+
+        Scene scene = new Scene(rootNode);
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Sumit app");
+        primaryStage.show();
+
+    }
+
+    private MenuBar createmenu(){
+        Menu fileMenu = new Menu("file");
+        MenuItem firstMenuItem = new MenuItem("create new");
+        firstMenuItem.setOnAction(event -> System.out.println("new menu created"));
+        //----------------------------------------------
+
+        SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
+        //------------------------------------------------------
+        MenuItem quitMenuItem = new MenuItem("quit");
+        quitMenuItem.setOnAction(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
+//-------------------------------------------------------
+        fileMenu.getItems().addAll(firstMenuItem,separatorMenuItem,quitMenuItem);
+   //-----------------------------------------------------------------------------------
+        Menu editMenu = new Menu("edit");
+        //----------------------------------------
+        MenuItem cutMenuItem = new MenuItem("cut");
+        //-------------------------------------------------
+        MenuItem copyMenuItem = new MenuItem("copy");
+        //--------------------------------------------------
+        MenuItem pasteMenuItem = new MenuItem("paste");
+        //----------------------------------------
+
+        editMenu.getItems().addAll(cutMenuItem,copyMenuItem,pasteMenuItem);
+    //----------------------------------------------------------------------------------
+
+        Menu helpMenu = new Menu("help");
+        //-------------------------------------------------
+        MenuItem helpMenuItem = new MenuItem("Help");
+        //--------------------------------------------------------
+        MenuItem feedbackMenuItem = new MenuItem("feedback");
+
+        // /-----------------------------------------------------------
+        MenuItem contactusMenuItem = new MenuItem("contactus");
+        //--------------------------------------------------------
+        MenuItem aboutappMenuItem = new MenuItem("aboutapp");
+
+        aboutappMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                aboutapp();
+            }
+        });
+        //------------------------------------------------------------------
+
+        helpMenu.getItems().addAll(helpMenuItem,feedbackMenuItem,contactusMenuItem,aboutappMenuItem);
+    //----------------------------------------------------------------------------------
+
+
+
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().addAll(fileMenu,editMenu,helpMenu);
+
+
+        return menuBar;
+    }
+
+    private void aboutapp() {
+        Alert alertDialog = new Alert(Alert.AlertType.INFORMATION);
+        alertDialog.setTitle("sumit first desktop app");
+        alertDialog.setHeaderText("app by sumit-- using java ");
+        alertDialog.setContentText("i am just a beginner but soon i will be pro and start developing awesome java games");
+        alertDialog.show();
+
+    }
+    
+
+    @Override
+    public void stop() throws Exception {
+        System.out.println("end");
+        super.stop();
+    }
+ }
 
